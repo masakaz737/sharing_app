@@ -1,5 +1,4 @@
-class Member::UsersController < ApplicationController
-  before_action :authenticate_user!
+class Member::UsersController < Member::ApplicationController
   before_action :set_user, only: %i[show edit update]
 
   # GET /users/1
