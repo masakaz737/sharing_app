@@ -1,0 +1,7 @@
+p#notice
+  = notice
+p
+  strong
+    | Name:
+  = @user.name
+= link_to 'Edit', edit_member_user_path(@user)

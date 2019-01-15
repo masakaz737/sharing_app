@@ -1,0 +1,29 @@
+p#notice
+  = notice
+p
+  strong
+    | User:
+  = @item.user.name
+p
+  strong
+    | Name:
+  = @item.name
+p
+  strong
+    | Description:
+  = @item.description
+p
+  strong
+    | Condition:
+  = @item.condition
+p
+  strong
+    | Price:
+  = @item.price
+p
+  strong
+    | Available:
+  = @item.available
+= link_to 'Edit', edit_member_item_path(@item)
+|  | 
+= link_to 'Back', member_items_path
