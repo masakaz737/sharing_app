@@ -24,4 +24,7 @@ p
   strong
     | Available:
   = @item.available
+
+= link_to 'New Deal', new_member_deal_path(item_id: @item.id)
+br
 = link_to 'Back', items_path

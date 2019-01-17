@@ -1,0 +1,30 @@
+= form_with(model: [:member, deal], local: true) do |form|
+  - if @deal.errors.any?
+    #error_explanation
+      h2
+        = pluralize(user.errors.count, "error")
+        |  prohibited this deal from being saved:
+      ul
+        - deal.errors.full_messages.each do |message|
+          li
+            = message
+
+  .field
+    = form.label :item_id
+    = @item.name
+    = form.hidden_field :item_id, value: @item.id
+  .field
+    = form.label :lender_id
+    = @item.user.name
+    = form.hidden_field :lender_id, value: @item.user_id
+  .field
+    = form.label :borrower_id
+    = current_user.name
+    = form.hidden_field :borrower_id, value: current_user.id
+  .field
+    = form.label :unit_price
+    = @item.price
+    = form.hidden_field :unit_price, value: @item.price
+
+  .actions
+    = form.submit

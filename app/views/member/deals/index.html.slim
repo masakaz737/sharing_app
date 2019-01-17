@@ -1,0 +1,27 @@
+h1 Listing deals
+
+table
+  thead
+    tr
+      th Item
+      th Lender
+      th Borrower
+      th Unit price
+      th
+      th
+      th
+
+  tbody
+    - @deals.each do |deal|
+      tr
+        td = deal.item.name
+        td = deal.lender.name
+        td = deal.borrower.name
+        td = deal.unit_price
+        td = link_to 'Show', member_deal_path(deal)
+        td = link_to 'Edit', edit_member_deal_path(deal)
+        td = link_to 'Destroy', member_deal_path(deal), data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Deal', new_member_deal_path
