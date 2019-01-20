@@ -1,5 +1,29 @@
 h1 Listing deals
 
+h2 lender_deals
+table
+  thead
+    tr
+      th Item
+      th Lender
+      th Borrower
+      th Unit price
+      th
+      th
+      th
+  tbody
+    - @lender_deals&.each do |lender_deal|
+      tr
+        td = lender_deal.item.name
+        td = lender_deal.lender.name
+        td = lender_deal.borrower.name
+        td = lender_deal.unit_price
+        td = link_to 'Show', member_deal_path(lender_deal)
+        td = link_to 'Edit', edit_member_deal_path(lender_deal)
+        td = link_to 'Destroy', member_deal_path(lender_deal),
+          data: { confirm: 'Are you sure?' }, method: :delete
+
+h2 borrower_deals
 table
   thead
     tr
@@ -12,16 +36,13 @@ table
       th
 
   tbody
-    - @deals.each do |deal|
+    - @borrower_deals&.each do |borrower_deal|
       tr
-        td = deal.item.name
-        td = deal.lender.name
-        td = deal.borrower.name
-        td = deal.unit_price
-        td = link_to 'Show', member_deal_path(deal)
-        td = link_to 'Edit', edit_member_deal_path(deal)
-        td = link_to 'Destroy', member_deal_path(deal), data: { confirm: 'Are you sure?' }, method: :delete
-
-br
-
-= link_to 'New Deal', new_member_deal_path
+        td = borrower_deal.item.name
+        td = borrower_deal.lender.name
+        td = borrower_deal.borrower.name
+        td = borrower_deal.unit_price
+        td = link_to 'Show', member_deal_path(borrower_deal)
+        td = link_to 'Edit', edit_member_deal_path(borrower_deal)
+        td = link_to 'Destroy', member_deal_path(borrower_deal),
+          data: { confirm: 'Are you sure?' }, method: :delete

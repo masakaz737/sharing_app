@@ -1,5 +1,5 @@
-= form_with(model: [:member, deal], local: true) do |form|
-  - if @deal.errors.any?
+= form_with(model: [:member, @item, deal], local: true) do |form|
+  - if deal.errors.any?
     #error_explanation
       h2
         = pluralize(user.errors.count, "error")
@@ -11,20 +11,20 @@
 
   .field
     = form.label :item_id
-    = @item.name
-    = form.hidden_field :item_id, value: @item.id
+    = deal.item.name
+    = form.hidden_field :item_id
   .field
     = form.label :lender_id
-    = @item.user.name
-    = form.hidden_field :lender_id, value: @item.user_id
+    = deal.lender.name
+    = form.hidden_field :lender_id
   .field
     = form.label :borrower_id
-    = current_user.name
-    = form.hidden_field :borrower_id, value: current_user.id
+    = deal.borrower.name
+    = form.hidden_field :borrower_id
   .field
     = form.label :unit_price
-    = @item.price
-    = form.hidden_field :unit_price, value: @item.price
+    = deal.unit_price
+    = form.hidden_field :unit_price
 
   .actions
     = form.submit
