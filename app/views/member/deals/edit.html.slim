@@ -2,6 +2,6 @@ h1 Editing deal
 
 = render 'form',  deal: @deal
 
-=> link_to 'Show', @deal
-'|
-=< link_to 'Back', member_deals_path
+= link_to 'Show', member_deal_path(@deal)
+| |
+= link_to 'Back', member_item_deals_path(@deal.item)

@@ -7,4 +7,8 @@ class Deal < ApplicationRecord
   validates :lender_id, presence: true
   validates :borrower_id, presence: true
   validates :unit_price, presence: true
+
+  def borrower?(current_user)
+    borrower_id == current_user.id && borrower_id != lender_id
+  end
 end

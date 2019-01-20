@@ -3,7 +3,8 @@ class Member::DealsController < Member::ApplicationController
 
   # GET /deals
   def index
-    @deals = Deal.all
+    @lender_deals = Deal.where(lender_id: current_user.id)
+    @borrower_deals = Deal.where(borrower_id: current_user.id)
   end
 
   # GET /deals/1
@@ -13,7 +14,9 @@ class Member::DealsController < Member::ApplicationController
   # GET /deals/new
   def new
     @item = Item.find(params[:item_id])
-    @deal = @item.deals.new
+    @deal = @item.deals.new(
+      lender_id: @item.user_id, borrower_id: current_user.id, unit_price: @item.price
+    )
   end
 
   # GET /deals/1/edit
@@ -24,7 +27,7 @@ class Member::DealsController < Member::ApplicationController
   def create
     @deal = Deal.new(deal_params)
 
-    if @deal.save
+    if @deal.borrower?(current_user) && @deal.save
       redirect_to [:member, @deal], notice: 'Deal was successfully created.'
     else
       render :new
@@ -43,7 +46,7 @@ class Member::DealsController < Member::ApplicationController
   # DELETE /deals/1
   def destroy
     @deal.destroy
-    redirect_to member_deals_url, notice: 'Deal was successfully destroyed.'
+    redirect_to member_item_deals_url(@deal.item), notice: 'Deal was successfully destroyed.'
   end
 
   private
