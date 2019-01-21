@@ -25,8 +25,7 @@ h2 lender_deals
           td = link_to 'Destroy', member_deal_path(lender_deal),
             data: { confirm: 'Are you sure?' }, method: :delete
 - else
-  tr
-    td = "貸し取引履歴なし"
+  = "貸し取引履歴なし"
 
 h2 borrower_deals
 - if @borrower_deals.present?
@@ -53,5 +52,4 @@ h2 borrower_deals
           td = link_to 'Destroy', member_deal_path(borrower_deal),
             data: { confirm: 'Are you sure?' }, method: :delete
 - else
-  tr
-    td = "借り取引履歴なし"
+  = "借り取引履歴なし"
