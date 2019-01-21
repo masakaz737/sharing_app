@@ -11,4 +11,8 @@ class Item < ApplicationRecord
       less_than_or_equal_to: 3
     }
   validates :available, null: false, inclusion: { in: [true, false] }
+
+  def owner?(current_user)
+    user_id == current_user.id
+  end
 end

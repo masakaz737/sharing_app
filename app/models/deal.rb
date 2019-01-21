@@ -9,6 +9,6 @@ class Deal < ApplicationRecord
   validates :unit_price, presence: true
 
   def borrower?(current_user)
-    borrower_id == current_user.id && borrower_id != lender_id
+    borrower_id == current_user.id
   end
 end

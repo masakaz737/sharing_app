@@ -1,5 +1,6 @@
 class Member::DealsController < Member::ApplicationController
   before_action :set_deal, only: %i[show edit update destroy]
+  before_action :set_item, only: %i[new create]
 
   # GET /deals
   def index
@@ -13,7 +14,6 @@ class Member::DealsController < Member::ApplicationController
 
   # GET /deals/new
   def new
-    @item = Item.find(params[:item_id])
     @deal = @item.deals.new(
       lender_id: @item.user_id, borrower_id: current_user.id, unit_price: @item.price
     )
@@ -25,7 +25,7 @@ class Member::DealsController < Member::ApplicationController
 
   # POST /deals
   def create
-    @deal = Deal.new(deal_params)
+    @deal = @item.deals.new(deal_params)
 
     if @deal.borrower?(current_user) && @deal.save
       redirect_to [:member, @deal], notice: 'Deal was successfully created.'
@@ -53,6 +53,10 @@ class Member::DealsController < Member::ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_deal
       @deal = Deal.find(params[:id])
+    end
+
+    def set_item
+      @item = Item.find(params[:item_id])
     end
 
     # Only allow a trusted parameter "white list" through.
