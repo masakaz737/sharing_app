@@ -1,55 +1,49 @@
 h1 Listing deals
 
 h2 lender_deals
-- if @lender_deals.present?
-  table
-    thead
-      tr
-        th Item
-        th Lender
-        th Borrower
-        th Unit price
-        th
-        th
-        th
+table
+  thead
+    tr
+      th Item
+      th Lender
+      th Borrower
+      th Unit price
+      th
+      th
+      th
 
-    tbody
-      - @lender_deals.each do |lender_deal|
-        tr
-          td = lender_deal.item.name
-          td = lender_deal.lender.name
-          td = lender_deal.borrower.name
-          td = lender_deal.unit_price
-          td = link_to 'Show', member_deal_path(lender_deal)
-          td = link_to 'Edit', edit_member_deal_path(lender_deal)
-          td = link_to 'Destroy', member_deal_path(lender_deal),
-            data: { confirm: 'Are you sure?' }, method: :delete
-- else
-  = "貸し取引履歴なし"
+  tbody
+    - @lender_deals.each do |lender_deal|
+      tr
+        td = lender_deal.item.name
+        td = lender_deal.lender.name
+        td = lender_deal.borrower.name
+        td = lender_deal.unit_price
+        td = link_to 'Show', member_deal_path(lender_deal)
+        td = link_to 'Edit', edit_member_deal_path(lender_deal)
+        td = link_to 'Destroy', member_deal_path(lender_deal),
+          data: { confirm: 'Are you sure?' }, method: :delete
 
 h2 borrower_deals
-- if @borrower_deals.present?
-  table
-    thead
-      tr
-        th Item
-        th Lender
-        th Borrower
-        th Unit price
-        th
-        th
-        th
+table
+  thead
+    tr
+      th Item
+      th Lender
+      th Borrower
+      th Unit price
+      th
+      th
+      th
 
-    tbody
-      - @borrower_deals&.each do |borrower_deal|
-        tr
-          td = borrower_deal.item.name
-          td = borrower_deal.lender.name
-          td = borrower_deal.borrower.name
-          td = borrower_deal.unit_price
-          td = link_to 'Show', member_deal_path(borrower_deal)
-          td = link_to 'Edit', edit_member_deal_path(borrower_deal)
-          td = link_to 'Destroy', member_deal_path(borrower_deal),
-            data: { confirm: 'Are you sure?' }, method: :delete
-- else
-  = "借り取引履歴なし"
+  tbody
+    - @borrower_deals.each do |borrower_deal|
+      tr
+        td = borrower_deal.item.name
+        td = borrower_deal.lender.name
+        td = borrower_deal.borrower.name
+        td = borrower_deal.unit_price
+        td = link_to 'Show', member_deal_path(borrower_deal)
+        td = link_to 'Edit', edit_member_deal_path(borrower_deal)
+        td = link_to 'Destroy', member_deal_path(borrower_deal),
+          data: { confirm: 'Are you sure?' }, method: :delete
