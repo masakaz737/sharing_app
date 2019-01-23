@@ -1,0 +1,16 @@
+p
+  strong Item:
+  = @deal.item.name
+p
+  strong Lender:
+  = @deal.lender.name
+p
+  strong Borrower:
+  = @deal.borrower.name
+p
+  strong Unit price:
+  = @deal.unit_price
+
+=> link_to 'Edit', edit_member_deal_path(@deal)
+'|
+=< link_to 'Back', member_item_deals_path(@deal.item)

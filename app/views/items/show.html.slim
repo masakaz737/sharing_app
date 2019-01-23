@@ -24,4 +24,8 @@ p
   strong
     | Available:
   = @item.available
+
+- if !@item.owner?(current_user)
+  = link_to 'New Deal', new_member_item_deal_path(item_id: @item.id)
+br
 = link_to 'Back', items_path
