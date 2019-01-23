@@ -10,6 +10,4 @@ class User < ApplicationRecord
 
   has_many :borrowing_deals, foreign_key: 'borrower_id', class_name: 'Deal', dependent: :destroy
   has_many :lenders, through: :borrowing_deals, source: :lender
-
-  validates :name, presence: true
 end

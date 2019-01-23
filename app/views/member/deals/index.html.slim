@@ -11,8 +11,9 @@ table
       th
       th
       th
+
   tbody
-    - @lender_deals&.each do |lender_deal|
+    - @lender_deals.each do |lender_deal|
       tr
         td = lender_deal.item.name
         td = lender_deal.lender.name
@@ -36,7 +37,7 @@ table
       th
 
   tbody
-    - @borrower_deals&.each do |borrower_deal|
+    - @borrower_deals.each do |borrower_deal|
       tr
         td = borrower_deal.item.name
         td = borrower_deal.lender.name

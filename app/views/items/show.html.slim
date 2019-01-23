@@ -25,7 +25,7 @@ p
     | Available:
   = @item.available
 
-- unless @item.user_id == current_user.id
+- if !@item.owner?(current_user)
   = link_to 'New Deal', new_member_item_deal_path(item_id: @item.id)
 br
 = link_to 'Back', items_path

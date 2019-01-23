@@ -1,5 +1,6 @@
 class Member::UsersController < Member::ApplicationController
   before_action :set_user, only: %i[show edit update]
+  skip_before_action :require_user_name, only: %i[edit update]
 
   # GET /users/1
   # GET /users/1.json
