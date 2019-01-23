@@ -8,6 +8,12 @@ p
   = @item.name
 p
   strong
+    | Category:
+  - @item.categories.each do |category|
+    |  •
+    = category.name
+p
+  strong
     | Description:
   = @item.description
 p
