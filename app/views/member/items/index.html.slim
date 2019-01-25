@@ -8,6 +8,8 @@ table
       th
         | Name
       th
+        | Category
+      th
         | Description
       th
         | Condition
@@ -23,6 +25,10 @@ table
           = item.user.name
         td
           = item.name
+        td
+          - item.categories.each do |category|
+            |  •
+            =category.name
         td
           = item.description
         td

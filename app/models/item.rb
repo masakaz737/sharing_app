@@ -1,6 +1,8 @@
 class Item < ApplicationRecord
   belongs_to :user
   has_many :deals
+  has_many :item_categories, dependent: :destroy
+  has_many :categories, through: :item_categories
 
   validates :name, presence: true
   validates :price, presence: true

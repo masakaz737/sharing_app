@@ -1,5 +1,6 @@
 class Member::ItemsController < Member::ApplicationController
   before_action :set_item, only: %i[show edit update destroy]
+  before_action :set_categories, only: %i[new edit]
 
   # GET /items
   def index
@@ -52,8 +53,12 @@ class Member::ItemsController < Member::ApplicationController
       @item = Item.find(params[:id])
     end
 
+    def set_categories
+      @categories = Category.all
+    end
+
     # Only allow a trusted parameter "white list" through.
     def item_params
-      params.require(:item).permit(:name, :description, :condition, :price, :available)
+      params.require(:item).permit(:name, :description, :condition, :price, :available, category_ids: [])
     end
 end

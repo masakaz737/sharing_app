@@ -1,5 +1,3 @@
-p#notice
-  = notice
 p
   strong
     | User:
@@ -8,6 +6,12 @@ p
   strong
     | Name:
   = @item.name
+p
+  strong
+    | Category:
+  - @item.categories.each do |category|
+    |  •
+    = category.name
 p
   strong
     | Description:

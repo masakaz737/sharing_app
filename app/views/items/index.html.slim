@@ -1,5 +1,3 @@
-p#notice
-  = notice
 h1
   | Items
 table
@@ -9,6 +7,8 @@ table
         | User
       th
         | Name
+      th
+        | Category
       th
         | Description
       th
@@ -25,6 +25,10 @@ table
           = item.user.name
         td
           = item.name
+        td
+          - item.categories.each do |category|
+            |  •
+            =category.name
         td
           = item.description
         td
