@@ -3,7 +3,7 @@ class Member::ItemsController < Member::ApplicationController
 
   # GET /items
   def index
-    @items = Item.all
+    @items = Item.where(user_id: current_user)
   end
 
   # GET /items/1
@@ -13,12 +13,10 @@ class Member::ItemsController < Member::ApplicationController
   # GET /items/new
   def new
     @item = Item.new
-    @categories = Category.all
   end
 
   # GET /items/1/edit
   def edit
-    @categories = Category.all
   end
 
   # POST /items
