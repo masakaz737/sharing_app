@@ -14,18 +14,18 @@ class Member::DealsController < Member::ApplicationController
 
   # GET /deals/new
   def new
-    @deal = @item.deals.new(
-      lender_id: @item.user_id, borrower_id: current_user.id, unit_price: @item.price
-    )
+    @deal = @item.create_item_deals(current_user)
   end
 
   # GET /deals/1/edit
   def edit
+    redirect_to [:member, @deal], notice: '権限がありません。' if @deal.borrower?(current_user)
   end
 
   # POST /deals
   def create
     @deal = @item.deals.new(deal_params)
+    @deal.status = 'submitted'
 
     if @deal.borrower?(current_user) && @deal.save
       redirect_to [:member, @deal], notice: 'Deal was successfully created.'
@@ -61,6 +61,6 @@ class Member::DealsController < Member::ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def deal_params
-      params.require(:deal).permit(:item_id, :lender_id, :borrower_id, :unit_price)
+      params.require(:deal).permit(:item_id, :lender_id, :borrower_id, :unit_price, :status)
     end
 end

@@ -17,4 +17,12 @@ class Item < ApplicationRecord
   def owner?(current_user)
     user_id == current_user.id
   end
+
+  def create_item_deals(current_user)
+    deals.new(
+      lender_id: user_id,
+      borrower_id: current_user.id,
+      unit_price: price,
+    )
+  end
 end
