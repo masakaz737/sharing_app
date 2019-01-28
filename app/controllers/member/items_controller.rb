@@ -17,6 +17,7 @@ class Member::ItemsController < Member::ApplicationController
 
   # GET /items/1/edit
   def edit
+    redirect_to member_item_deals_path(@item), notice: ' 進行中の取引があります。' if @item.deals_in_progress?
   end
 
   # POST /items

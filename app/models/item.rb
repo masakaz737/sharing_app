@@ -25,4 +25,8 @@ class Item < ApplicationRecord
       unit_price: price,
     )
   end
+
+  def deals_in_progress?
+    deals.where(status: 0..2).present?
+  end
 end
