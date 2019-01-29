@@ -9,10 +9,9 @@ class Deal < ApplicationRecord
   validates :lender_id, presence: true
   validates :borrower_id, presence: true
   validates :unit_price, presence: true
-  validates :status, null: false,
-    inclusion: { in: [
-      'submitted', 'approved', 'delivered', 'return', 'rejected', 'cancelled'
-      ] }
+  validates :status, inclusion: { in: Deal.statuses.keys }
+
+  scope :progress, -> { where(status: 0..2) }
 
   def borrower?(current_user)
     borrower_id == current_user.id

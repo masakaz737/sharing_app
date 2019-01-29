@@ -1,9 +1,10 @@
 class Member::ItemsController < Member::ApplicationController
   before_action :set_item, only: %i[show edit update destroy]
+  before_action :forbidden_to_edit?, only: %i[edit update]
 
   # GET /items
   def index
-    @items = Item.where(user_id: current_user)
+    @items = current_user.items
   end
 
   # GET /items/1
@@ -17,7 +18,6 @@ class Member::ItemsController < Member::ApplicationController
 
   # GET /items/1/edit
   def edit
-    redirect_to member_item_deals_path(@item), notice: ' 進行中の取引があります。' if @item.deals_in_progress?
   end
 
   # POST /items
@@ -56,5 +56,9 @@ class Member::ItemsController < Member::ApplicationController
     # Only allow a trusted parameter "white list" through.
     def item_params
       params.require(:item).permit(:name, :description, :condition, :price, :available, category_ids: [])
+    end
+
+    def forbidden_to_edit?
+      redirect_to member_item_deals_path(@item), notice: ' 進行中の取引があります。' if @item.exist_progress_deals?
     end
 end

@@ -18,15 +18,7 @@ class Item < ApplicationRecord
     user_id == current_user.id
   end
 
-  def create_item_deals(current_user)
-    deals.new(
-      lender_id: user_id,
-      borrower_id: current_user.id,
-      unit_price: price,
-    )
-  end
-
-  def deals_in_progress?
-    deals.where(status: 0..2).present?
+  def exist_progress_deals?
+    deals.progress.present?
   end
 end

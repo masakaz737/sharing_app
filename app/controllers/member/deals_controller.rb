@@ -1,6 +1,8 @@
 class Member::DealsController < Member::ApplicationController
   before_action :set_deal, only: %i[show edit update destroy]
   before_action :set_item, only: %i[new create]
+  before_action :require_item_owner, only: %i[edit update]
+
 
   # GET /deals
   def index
@@ -14,18 +16,20 @@ class Member::DealsController < Member::ApplicationController
 
   # GET /deals/new
   def new
-    @deal = @item.create_item_deals(current_user)
+    @deal = @item.deals.new(
+      lender_id: @item.user_id,
+      borrower_id: current_user.id,
+      unit_price: @item.price,
+    )
   end
 
   # GET /deals/1/edit
   def edit
-    redirect_to [:member, @deal], notice: '権限がありません。' if @deal.borrower?(current_user)
   end
 
   # POST /deals
   def create
     @deal = @item.deals.new(deal_params)
-    @deal.status = 'submitted'
 
     if @deal.borrower?(current_user) && @deal.save
       redirect_to [:member, @deal], notice: 'Deal was successfully created.'
@@ -62,5 +66,9 @@ class Member::DealsController < Member::ApplicationController
     # Only allow a trusted parameter "white list" through.
     def deal_params
       params.require(:deal).permit(:item_id, :lender_id, :borrower_id, :unit_price, :status)
+    end
+
+    def require_item_owner
+      redirect_to [:member, @deal], notice: '権限がありません。' if !@deal.item.owner?(current_user)
     end
 end
