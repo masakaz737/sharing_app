@@ -1,7 +1,7 @@
 class Member::DealsController < Member::ApplicationController
   before_action :set_deal, only: %i[show edit update destroy]
   before_action :set_item, only: %i[new create]
-  before_action :require_item_owner, only: %i[edit update]
+  before_action :require_owner_permission, only: %i[edit update]
 
 
   # GET /deals
@@ -68,7 +68,7 @@ class Member::DealsController < Member::ApplicationController
       params.require(:deal).permit(:item_id, :lender_id, :borrower_id, :unit_price, :status)
     end
 
-    def require_item_owner
+    def require_owner_permission
       redirect_to [:member, @deal], notice: '権限がありません。' if !@deal.item.owner?(current_user)
     end
 end
