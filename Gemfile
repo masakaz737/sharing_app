@@ -18,6 +18,8 @@ gem 'uglifier', '>= 1.3.0'
 
 # for auth
 gem 'devise'
+# i18n for enum
+gem 'enum_help'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'

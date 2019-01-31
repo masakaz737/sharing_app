@@ -10,6 +10,9 @@ p
 p
   strong Unit price:
   = @deal.unit_price
+p
+  strong Status:
+  = @deal.status_i18n
 
 => link_to 'Edit', edit_member_deal_path(@deal)
 '|

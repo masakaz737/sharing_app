@@ -8,6 +8,8 @@ table
       th Lender
       th Borrower
       th Unit price
+      th Status
+      th
       th
       th
       th
@@ -19,10 +21,11 @@ table
         td = lender_deal.lender.name
         td = lender_deal.borrower.name
         td = lender_deal.unit_price
+        td = lender_deal.status_i18n
         td = link_to 'Show', member_deal_path(lender_deal)
         td = link_to 'Edit', edit_member_deal_path(lender_deal)
-        td = link_to 'Destroy', member_deal_path(lender_deal),
-          data: { confirm: 'Are you sure?' }, method: :delete
+        td = button_to '承認', member_deal_path(lender_deal, params: { deal: { status: 'approved'} }), method: :patch
+        td = button_to '非承認', member_deal_path(lender_deal, params: { deal: { status: 'rejected'} }), method: :patch
 
 h2 borrower_deals
 table
@@ -32,6 +35,7 @@ table
       th Lender
       th Borrower
       th Unit price
+      th Status
       th
       th
       th
@@ -43,6 +47,7 @@ table
         td = borrower_deal.lender.name
         td = borrower_deal.borrower.name
         td = borrower_deal.unit_price
+        td = borrower_deal.status_i18n
         td = link_to 'Show', member_deal_path(borrower_deal)
         td = link_to 'Edit', edit_member_deal_path(borrower_deal)
         td = link_to 'Destroy', member_deal_path(borrower_deal),

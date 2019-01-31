@@ -1,0 +1,36 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+      item: アイテム
+      deal: 取引
+      category: カテゴリ
+    attributes:
+      user:
+        id: ID
+        name: 名前
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード（確認）
+        created_at: 登録日時
+        updated_at: 更新日時
+      item:
+        name: アイテム名
+        description: 詳しい説明
+        condition: 状態
+        price: 日当り単価
+        available: 貸出可否
+        created_at: 登録日時
+        updated_at: 更新日時
+      deal:
+        unit_price: 日当り単価
+        item: アイテム
+        lender: 貸し手
+        borrower: 借り手
+        status: ステータス
+        created_at: 登録日時
+        updated_at: 更新日時
+      category:
+        name: カテゴリ名
+        created_at: 登録日時
+        updated_at: 更新日時

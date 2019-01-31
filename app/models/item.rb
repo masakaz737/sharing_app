@@ -17,4 +17,8 @@ class Item < ApplicationRecord
   def owner?(current_user)
     user_id == current_user.id
   end
+
+  def exist_progress_deals?
+    deals.progress.present?
+  end
 end

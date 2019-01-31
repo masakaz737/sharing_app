@@ -1,10 +1,10 @@
 class Member::ItemsController < Member::ApplicationController
   before_action :set_item, only: %i[show edit update destroy]
-  before_action :set_categories, only: %i[new edit]
+  before_action :check_progress_deals, only: %i[edit update]
 
   # GET /items
   def index
-    @items = Item.all
+    @items = current_user.items
   end
 
   # GET /items/1
@@ -22,8 +22,7 @@ class Member::ItemsController < Member::ApplicationController
 
   # POST /items
   def create
-    @item = Item.new(item_params)
-    @item.user_id = current_user.id
+    @item = current_user.items.new(item_params)
 
     if @item.save
       redirect_to [:member, @item], notice: 'Item was successfully created.'
@@ -50,15 +49,15 @@ class Member::ItemsController < Member::ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_item
-      @item = Item.find(params[:id])
-    end
-
-    def set_categories
-      @categories = Category.all
+      @item = current_user.items.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def item_params
       params.require(:item).permit(:name, :description, :condition, :price, :available, category_ids: [])
+    end
+
+    def check_progress_deals
+      redirect_to member_item_deals_path(@item), notice: ' 進行中の取引があります。' if @item.exist_progress_deals?
     end
 end
