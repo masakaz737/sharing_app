@@ -4,7 +4,7 @@ class Member::ItemsController < Member::ApplicationController
 
   # GET /items
   def index
-    @items = current_user.items
+    @items = current_user.items.includes(:categories)
   end
 
   # GET /items/1

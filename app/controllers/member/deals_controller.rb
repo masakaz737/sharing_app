@@ -6,8 +6,8 @@ class Member::DealsController < Member::ApplicationController
 
   # GET /deals
   def index
-    @lender_deals = Deal.where(lender_id: current_user.id)
-    @borrower_deals = Deal.where(borrower_id: current_user.id)
+    @lender_deals = Deal.where(lender_id: current_user.id).includes(:item, :lender, :borrower)
+    @borrower_deals = Deal.where(borrower_id: current_user.id).includes(:item, :lender, :borrower)
   end
 
   # GET /deals/1
