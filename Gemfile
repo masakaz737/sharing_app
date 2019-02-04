@@ -20,6 +20,9 @@ gem 'uglifier', '>= 1.3.0'
 gem 'devise'
 # i18n for enum
 gem 'enum_help'
+# image uploader
+gem 'carrierwave'
+gem 'mini_magick'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
