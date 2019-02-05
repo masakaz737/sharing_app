@@ -14,7 +14,7 @@ class Member::ItemsController < Member::ApplicationController
   # GET /items/new
   def new
     @item = Item.new
-    3.times { @item.item_images.build }
+    set_images
   end
 
   # GET /items/1/edit
@@ -62,8 +62,12 @@ class Member::ItemsController < Member::ApplicationController
         :price,
         :available,
         category_ids: [],
-        item_images_attributes: [:image, :_destroy, :id]
+        item_images_attributes: [:image, :image_cache, :_destroy, :id]
       )
+    end
+
+    def set_images
+      3.times { @item.item_images.build }
     end
 
     def check_progress_deals

@@ -15,6 +15,7 @@
     = form.fields_for :item_images do |item_image|
       = image_tag(item_image.object.image.url) if item_image.object.image.url
       = item_image.file_field :image
+      = item_image.hidden_field :image_cache
       = item_image.hidden_field :id, value: item_image.object.id
   .field
     = form.collection_check_boxes :category_ids, Category.all, :id, :name, include_hidden: false do |b|
