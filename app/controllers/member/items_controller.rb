@@ -14,6 +14,7 @@ class Member::ItemsController < Member::ApplicationController
   # GET /items/new
   def new
     @item = Item.new
+    set_images
   end
 
   # GET /items/1/edit
@@ -54,7 +55,19 @@ class Member::ItemsController < Member::ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def item_params
-      params.require(:item).permit(:name, :description, :condition, :price, :available, category_ids: [])
+      params.require(:item).permit(
+        :name,
+        :description,
+        :condition,
+        :price,
+        :available,
+        category_ids: [],
+        item_images_attributes: [:image, :image_cache, :_destroy, :id]
+      )
+    end
+
+    def set_images
+      3.times { @item.item_images.build }
     end
 
     def check_progress_deals

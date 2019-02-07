@@ -3,6 +3,8 @@ class Item < ApplicationRecord
   has_many :deals
   has_many :item_categories, dependent: :destroy
   has_many :categories, through: :item_categories
+  has_many :item_images, dependent: :destroy
+  accepts_nested_attributes_for :item_images
 
   validates :name, presence: true
   validates :price, presence: true

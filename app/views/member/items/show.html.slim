@@ -8,6 +8,11 @@ p
   = @item.name
 p
   strong
+  - @item.item_images.each do |item_image|
+    |  
+    = image_tag item_image.image.url if item_image.image.url
+p
+  strong
     | Category:
   - @item.categories.each do |category|
     |  •
