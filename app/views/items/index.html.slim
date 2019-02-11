@@ -1,5 +1,16 @@
 h1
   | Items
+
+= form_tag items_path, method: 'get' do
+  .field
+    = label_tag :name, 'アイテム名'
+    = text_field_tag :name
+  .field
+    = label_tag :category, 'カテゴリ'
+    = collection_select(:category, :category_id, Category.all, :id, :name, include_blank: '指定なし')
+  .actions
+    = submit_tag '検索', name: nil
+
 table
   thead
     tr
