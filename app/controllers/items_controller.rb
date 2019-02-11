@@ -4,14 +4,17 @@ class ItemsController < ApplicationController
   # GET /items
   # GET /items.json
   def index
-    @items = Item.search(
-      params[:name],
-      params[:category][:category_id]
-    ).includes(
-        :user,
-        :item_categories,
-        :categories
-      )
+    @items = Item.all.includes(:user, :categories)
+    if params[:name] || params[:category]
+      @items = Item.search(
+        params[:name],
+        params[:category][:category_id]
+      ).includes(
+          :user,
+          :item_categories,
+          :categories
+        )
+    end
   end
 
   # GET /items/1
