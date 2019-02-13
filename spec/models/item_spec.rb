@@ -53,51 +53,62 @@ RSpec.describe Item, type: :model do
     let!(:item4){ create(:item, name: 'ITEM', categories: [category2]) }
 
     context '名前を空欄、カテゴリ「指定なし」で検索した場合' do
-      it 'self.searchの戻り値が4個、かつitem1,item2,item3,item4が含まれること' do
-        expect(Item.search('', '').count).to eq 4
-        expect(Item.search('', '')).to include(item1, item2, item3, item4)
+      let(:search_item_without_name_and_category){ Item.search('', '') }
+
+      it 'self.searchの戻り値にitem1,item2,item3,item4が全て含まれること' do
+        expect(search_item_without_name_and_category).to include(item1, item2, item3, item4)
       end
     end
 
     context '名前「アイテムA」、カテゴリ「カテゴリ1」で検索した場合' do
-      it 'self.searchの戻り値が1個、かつitem1が含まれること' do
-        expect(Item.search('アイテムA', category1.id).count).to eq 1
-        expect(Item.search('アイテムA', category1.id)).to include(item1)
+      let(:search_item_with_name_and_category){ Item.search('アイテムA', category1.id) }
+
+      it 'self.searchの戻り値にitem1のみが含まれること' do
+        expect(search_item_with_name_and_category).to include(item1)
+        expect(search_item_with_name_and_category).not_to include(item2, item3, item4)
       end
     end
 
     context '名前「アイテムA」、カテゴリ「指定なし」で検索した場合' do
-      it 'self.searchの戻り値が2個、かつitem1,item2が含まれること' do
-        expect(Item.search('アイテムA', '').count).to eq 2
-        expect(Item.search('アイテムA', '')).to include(item1, item2)
+      let(:search_item_without_category){ Item.search('アイテムA', '') }
+
+      it 'self.searchの戻り値にitem1,item2のみが含まれること' do
+        expect(search_item_without_category).to include(item1, item2)
+        expect(search_item_without_category).not_to include(item3, item4)
       end
     end
 
     context '名前を空欄、カテゴリ「カテゴリ1」で検索した場合' do
-      it 'self.searchの戻り値が2個、かつitem1,item3が含まれること' do
-        expect(Item.search('', category1.id).count).to eq 2
-        expect(Item.search('', category1.id)).to include(item1, item3)
+      let(:search_item_without_name){ Item.search('', category1.id) }
+
+      it 'self.searchの戻り値にitem1,item3のみが含まれること' do
+        expect(search_item_without_name).to include(item1, item3)
+        expect(search_item_without_name).not_to include(item2, item4)
       end
     end
 
     context '名前「アイテム」、カテゴリ「指定なし」で検索した場合' do
-      it 'self.searchの戻り値が3個、かつitem1,item2,item3が含まれること' do
-        expect(Item.search('アイテム', '').count).to eq 3
-        expect(Item.search('アイテム', '')).to include(item1, item2, item3)
+      let(:search_item_with_name_kana){ Item.search('アイテム', '') }
+
+      it 'self.searchの戻り値にitem1,item2,item3のみが含まれること' do
+        expect(search_item_with_name_kana).to include(item1, item2, item3)
+        expect(search_item_with_name_kana).not_to include(item4)
       end
     end
 
     context '名前「A」、カテゴリ「指定なし」で検索した場合' do
-      it 'self.searchの戻り値が0個であること' do
-        expect(Item.search('A', '').count).to eq 0
-        expect(Item.search('A', '')).to eq []
+      let(:search_item_with_name_a){ Item.search('A', '') }
+
+      it 'self.searchの戻り値が空であること' do
+        expect(search_item_with_name_a).not_to include [item1, item2, item3, item4]
       end
     end
 
     context '存在しない名前「アイテムC」、カテゴリ「指定なし」で検索した場合' do
-      it 'self.searchの戻り値が0個であること' do
-        expect(Item.search('アイテムC', '').count).to eq 0
-        expect(Item.search('アイテムC', '')).to eq []
+      let(:search_item_with_name_c){ Item.search('アイテムC', '') }
+
+      it 'self.searchの戻り値が空であること' do
+        expect(search_item_with_name_c).not_to include [item1, item2, item3, item4]
       end
     end
   end
