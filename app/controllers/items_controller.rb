@@ -6,7 +6,7 @@ class ItemsController < ApplicationController
   def index
     @items = Item.all.includes(:user, :categories)
     if params[:name] || params[:category]
-      @items = Item.search(
+      @items = Item.search_by(
         params[:name],
         params[:category][:category_id]
       ).includes(

@@ -17,13 +17,11 @@ class Item < ApplicationRecord
   validates :available, null: false, inclusion: { in: [true, false] }
 
   scope :get_by_name, ->(name) {
-    return all if name.blank?
-    where("items.name like ?", "#{name}%")
+    where("items.name like ?", "#{name}%") if name.present?
   }
 
   scope :get_by_category, ->(category_id) {
-    return all if category_id.blank?
-    joins(:categories).where(categories: {id: category_id})
+    joins(:categories).where(categories: {id: category_id}) if category_id.present?
   }
 
   def owner?(current_user)
@@ -34,7 +32,7 @@ class Item < ApplicationRecord
     deals.progress.present?
   end
 
-  def self.search(name, category_id)
+  def self.search_by(name, category_id)
     get_by_name(name).get_by_category(category_id)
   end
 end
