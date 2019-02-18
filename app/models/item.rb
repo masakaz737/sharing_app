@@ -32,7 +32,7 @@ class Item < ApplicationRecord
     deals.progress.present?
   end
 
-  def self.search_by(name, category_id)
+  def self.search_by(name=nil, category_id=nil)
     get_by_name(name).get_by_category(category_id)
   end
 end

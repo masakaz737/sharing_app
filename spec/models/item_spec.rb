@@ -54,7 +54,7 @@ RSpec.describe Item, type: :model do
       end
 
       it 'self.search_byの戻り値が1つであること' do
-        expect(Item.search_by('', '').count).to eq 1
+        expect(Item.search_by.count).to eq 1
       end
     end
 
