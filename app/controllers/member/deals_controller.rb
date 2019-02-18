@@ -6,8 +6,21 @@ class Member::DealsController < Member::ApplicationController
 
   # GET /deals
   def index
-    @lender_deals = Deal.where(lender_id: current_user.id).includes(:item, :lender, :borrower)
-    @borrower_deals = Deal.where(borrower_id: current_user.id).includes(:item, :lender, :borrower)
+    @lender_deals = Deal.where(
+      lender_id: current_user.id
+    ).includes(
+      :item, :lender, :borrower
+    ).order(
+      created_at: "DESC"
+    ).page params[:lender_page]
+
+    @borrower_deals = Deal.where(
+      borrower_id: current_user.id
+    ).includes(
+      :item, :lender, :borrower
+    ).order(
+      created_at: "DESC"
+    ).page params[:borrower_page]
   end
 
   # GET /deals/1

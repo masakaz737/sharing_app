@@ -23,6 +23,8 @@ gem 'enum_help'
 # image uploader
 gem 'carrierwave'
 gem 'mini_magick'
+# pagination
+gem 'kaminari'
 
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'

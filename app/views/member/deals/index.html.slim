@@ -27,6 +27,8 @@ table
         td = button_to '承認', member_deal_path(lender_deal, params: { deal: { status: 'approved'} }), method: :patch
         td = button_to '非承認', member_deal_path(lender_deal, params: { deal: { status: 'rejected'} }), method: :patch
 
+= paginate @lender_deals, param_name: :lender_page
+
 h2 borrower_deals
 table
   thead
@@ -52,3 +54,5 @@ table
         td = link_to 'Edit', edit_member_deal_path(borrower_deal)
         td = link_to 'Destroy', member_deal_path(borrower_deal),
           data: { confirm: 'Are you sure?' }, method: :delete
+
+= paginate @borrower_deals, param_name: :borrower_page

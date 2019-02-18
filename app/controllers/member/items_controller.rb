@@ -4,7 +4,7 @@ class Member::ItemsController < Member::ApplicationController
 
   # GET /items
   def index
-    @items = current_user.items.includes(:categories)
+    @items = current_user.items.includes(:categories).order(created_at: "DESC").page params[:page]
   end
 
   # GET /items/1

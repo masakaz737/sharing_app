@@ -43,5 +43,6 @@ table
           = link_to 'Edit', edit_member_item_path(item)
         td
           = link_to 'Destroy', [:member, item], method: :delete, data: { confirm: 'Are you sure?' }
+= paginate @items
 br
 = link_to 'New Item', new_member_item_path
