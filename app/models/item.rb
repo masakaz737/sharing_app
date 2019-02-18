@@ -16,11 +16,23 @@ class Item < ApplicationRecord
     }
   validates :available, null: false, inclusion: { in: [true, false] }
 
+  scope :get_by_name, ->(name) {
+    where("items.name like ?", "#{name}%") if name.present?
+  }
+
+  scope :get_by_category, ->(category_id) {
+    joins(:categories).where(categories: {id: category_id}) if category_id.present?
+  }
+
   def owner?(current_user)
     user_id == current_user.id
   end
 
   def exist_progress_deals?
     deals.progress.present?
+  end
+
+  def self.search_by(name=nil, category_id=nil)
+    get_by_name(name).get_by_category(category_id)
   end
 end
