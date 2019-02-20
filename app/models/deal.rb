@@ -12,6 +12,9 @@ class Deal < ApplicationRecord
   validates :status, inclusion: { in: Deal.statuses.keys }
 
   scope :progress, -> { where(status: 0..2) }
+  scope :not_outdated, -> { where(status: 0..3) }
+  scope :outdated, -> { where(status: 4..5) }
+  scope :not_deleted, -> { where(deleted_at: nil) }
 
   def borrower?(current_user)
     borrower_id == current_user.id

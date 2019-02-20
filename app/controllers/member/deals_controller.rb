@@ -6,15 +6,23 @@ class Member::DealsController < Member::ApplicationController
 
   # GET /deals
   def index
-    @lender_deals = Deal.where(
-      lender_id: current_user.id
+    @lender_deals = Deal.not_deleted.not_outdated.where(
+      lender_id: current_user.id,
     ).includes(
       :item, :lender, :borrower
     ).order(
       created_at: "DESC"
     ).page params[:lender_page]
 
-    @borrower_deals = Deal.where(
+    @outdated_deals = Deal.not_deleted.outdated.where(
+      lender_id: current_user.id
+    ).includes(
+      :item, :lender, :borrower
+    ).order(
+      created_at: "DESC"
+    ).page params[:outdated_page]
+
+    @borrower_deals = Deal.not_deleted.where(
       borrower_id: current_user.id
     ).includes(
       :item, :lender, :borrower
@@ -62,8 +70,16 @@ class Member::DealsController < Member::ApplicationController
 
   # DELETE /deals/1
   def destroy
-    @deal.destroy
-    redirect_to member_item_deals_url(@deal.item), notice: 'Deal was successfully destroyed.'
+    deals = current_user.lending_deals.not_deleted.outdated
+    Deal.transaction do
+      deals.each do |deal|
+        deal.deleted_at = Time.now
+        deal.save!
+      end
+    end
+    redirect_to member_item_deals_url(current_user.items.first), notice: '削除成功'
+    rescue => e
+    redirect_to member_item_deals_url(current_user.items.first), notice: '削除失敗'
   end
 
   private
