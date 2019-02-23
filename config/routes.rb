@@ -9,7 +9,13 @@ Rails.application.routes.draw do
   namespace :member do
     resources :users, only: %i[show edit update]
     resources :items, shallow: true do
-      resources :deals
+      resources :deals, only: %i[new create]
+    end
+
+    resources :deals do
+      collection do
+        delete :destroy_all
+      end
     end
   end
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

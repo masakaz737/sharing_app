@@ -71,6 +71,6 @@ class Member::ItemsController < Member::ApplicationController
     end
 
     def check_progress_deals
-      redirect_to member_item_deals_path(@item), notice: ' 進行中の取引があります。' if @item.exist_progress_deals?
+      redirect_to member_deals_path, notice: ' 進行中の取引があります。' if @item.exist_progress_deals?
     end
 end
