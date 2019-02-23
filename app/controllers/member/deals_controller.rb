@@ -6,29 +6,9 @@ class Member::DealsController < Member::ApplicationController
 
   # GET /deals
   def index
-    @lender_deals = Deal.not_deleted.not_outdated.where(
-      lender_id: current_user.id,
-    ).includes(
-      :item, :lender, :borrower
-    ).order(
-      created_at: "DESC"
-    ).page params[:lender_page]
-
-    @outdated_deals = Deal.not_deleted.outdated.where(
-      lender_id: current_user.id
-    ).includes(
-      :item, :lender, :borrower
-    ).order(
-      created_at: "DESC"
-    ).page params[:outdated_page]
-
-    @borrower_deals = Deal.not_deleted.where(
-      borrower_id: current_user.id
-    ).includes(
-      :item, :lender, :borrower
-    ).order(
-      created_at: "DESC"
-    ).page params[:borrower_page]
+    @lender_deals = current_user.lending_deals.open.page params[:lender_deals_page]
+    @closed_deals = current_user.lending_deals.closed.page params[:closed_deals_page]
+    @borrower_deals = current_user.borrowing_deals.open.page params[:borrower_deals_page]
   end
 
   # GET /deals/1
@@ -68,18 +48,12 @@ class Member::DealsController < Member::ApplicationController
     end
   end
 
-  # DELETE /deals/1
-  def destroy
-    deals = current_user.lending_deals.not_deleted.outdated
-    Deal.transaction do
-      deals.each do |deal|
-        deal.deleted_at = Time.now
-        deal.save!
-      end
+  def destroy_all
+    if Deal.destroy_all_closed_deals(current_user)
+      redirect_to member_deals_path, notice: '終了した取引を全て削除しました。'
+    else
+      redirect_to member_deals_psth, notice: '一括削除に失敗しました。'
     end
-    redirect_to member_item_deals_url(current_user.items.first), notice: '削除成功'
-    rescue => e
-    redirect_to member_item_deals_url(current_user.items.first), notice: '削除失敗'
   end
 
   private

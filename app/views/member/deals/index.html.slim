@@ -25,15 +25,15 @@ table
         td = lender_deal.status_i18n
         td = link_to 'Show', member_deal_path(lender_deal)
         td = link_to 'Edit', edit_member_deal_path(lender_deal)
-        - if lender_deal.status == 'submitted'
+        - if lender_deal.submitted?
           td = button_to '承認', member_deal_path(lender_deal, params: { deal: { status: 'approved'} }), method: :patch
           td = button_to '非承認', member_deal_path(lender_deal, params: { deal: { status: 'rejected'} }), method: :patch
 
-= paginate @lender_deals, param_name: :lender_page
+= paginate @lender_deals, param_name: :lender_deals_page
 
-- if @outdated_deals.exists?
-  h3 outdated_deals
-  = button_to '一括削除', member_deal_path(current_user.items.first), method: :delete
+- if @closed_deals.present?
+  h3 closed_deals
+  = button_to '一括削除', destroy_all_member_deals_path, method: :delete
   table
     thead
       tr
@@ -46,17 +46,17 @@ table
         th
 
     tbody
-      - @outdated_deals.each do |outdated_deal|
+      - @closed_deals.each do |closed_deal|
         tr
-          td = outdated_deal.item.name
-          td = outdated_deal.lender.name
-          td = outdated_deal.borrower.name
-          td = outdated_deal.unit_price
-          td = outdated_deal.status_i18n
-          td = link_to 'Show', member_deal_path(outdated_deal)
-          td = link_to 'Edit', edit_member_deal_path(outdated_deal)
+          td = closed_deal.item.name
+          td = closed_deal.lender.name
+          td = closed_deal.borrower.name
+          td = closed_deal.unit_price
+          td = closed_deal.status_i18n
+          td = link_to 'Show', member_deal_path(closed_deal)
+          td = link_to 'Edit', edit_member_deal_path(closed_deal)
 
-= paginate @outdated_deals, param_name: :outdated_page
+= paginate @closed_deals, param_name: :closed_deals_page
 
 h2 borrower_deals
 table
@@ -84,4 +84,4 @@ table
         td = link_to 'Destroy', member_deal_path(borrower_deal),
           data: { confirm: 'Are you sure?' }, method: :delete
 
-= paginate @borrower_deals, param_name: :borrower_page
+= paginate @borrower_deals, param_name: :borrower_deals_page
