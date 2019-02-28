@@ -12,7 +12,7 @@ RSpec.describe Deal, type: :model do
       # closed状態のdeal作成
       create(:deal, item: item, status: :rejected, deleted_at: nil)
       create(:deal, item: item, status: :cancelled, deleted_at: nil)
-
+      # closed状態のdeal削除
       Deal.destroy_closed_deals(user)
     end
 
