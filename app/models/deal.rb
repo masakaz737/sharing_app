@@ -37,8 +37,8 @@ class Deal < ApplicationRecord
     borrower_id == current_user.id
   end
 
-  def self.destroy_all_closed_deals(current_user)
-    deals = current_user.lending_deals.closed
+  def self.destroy_closed_deals(user)
+    deals = user.lending_deals.closed
     Deal.transaction do
       deals.each do |deal|
         deal.deleted_at = Time.now

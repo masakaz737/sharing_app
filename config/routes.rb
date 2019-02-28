@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
     resources :deals do
       collection do
-        delete :destroy_all
+        delete :destroys
       end
     end
   end

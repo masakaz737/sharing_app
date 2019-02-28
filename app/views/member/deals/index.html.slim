@@ -33,7 +33,7 @@ table
 
 - if @closed_deals.present?
   h3 closed_deals
-  = button_to '一括削除', destroy_all_member_deals_path, method: :delete
+  = button_to '一括削除', destroys_member_deals_path, method: :delete
   table
     thead
       tr

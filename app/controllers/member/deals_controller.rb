@@ -48,8 +48,8 @@ class Member::DealsController < Member::ApplicationController
     end
   end
 
-  def destroy_all
-    if Deal.destroy_all_closed_deals(current_user)
+  def destroys
+    if Deal.destroy_closed_deals(current_user)
       redirect_to member_deals_path, notice: '終了した取引を全て削除しました。'
     else
       redirect_to member_deals_psth, notice: '一括削除に失敗しました。'
