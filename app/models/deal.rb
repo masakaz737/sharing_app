@@ -2,6 +2,7 @@ class Deal < ApplicationRecord
   belongs_to :item
   belongs_to :lender, class_name: "User"
   belongs_to :borrower, class_name: "User"
+  has_one :notification, dependent: :destroy
 
   enum status: { submitted: 0, approved: 1, delivered: 2, return: 3, rejected: 4, cancelled: 5 }
 
@@ -43,6 +44,22 @@ class Deal < ApplicationRecord
       deals.each do |deal|
         deal.deleted_at = Time.now
         deal.save!
+      end
+    end
+  end
+
+  def approve
+    self.status = 'approved'
+
+    if self.save
+      notification = Notification.new(
+        user_id: self.borrower_id,
+        deal_id: self.id,
+        message: "#{self.item.name}のリクエストが承認されました"
+      )
+
+      if notification.save
+        DealMailer.send_when_approve(self).deliver_now
       end
     end
   end

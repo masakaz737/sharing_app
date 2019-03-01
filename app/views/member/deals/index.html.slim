@@ -26,7 +26,7 @@ table
         td = link_to 'Show', member_deal_path(lender_deal)
         td = link_to 'Edit', edit_member_deal_path(lender_deal)
         - if lender_deal.submitted?
-          td = button_to '承認', member_deal_path(lender_deal, params: { deal: { status: 'approved'} }), method: :patch
+          td = button_to '承認', approve_member_deal_path(lender_deal), method: :patch
           td = button_to '非承認', member_deal_path(lender_deal, params: { deal: { status: 'rejected'} }), method: :patch
 
 = paginate @lender_deals, param_name: :lender_deals_page
