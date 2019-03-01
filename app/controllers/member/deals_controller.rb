@@ -6,21 +6,9 @@ class Member::DealsController < Member::ApplicationController
 
   # GET /deals
   def index
-    @lender_deals = Deal.where(
-      lender_id: current_user.id
-    ).includes(
-      :item, :lender, :borrower
-    ).order(
-      created_at: "DESC"
-    ).page params[:lender_page]
-
-    @borrower_deals = Deal.where(
-      borrower_id: current_user.id
-    ).includes(
-      :item, :lender, :borrower
-    ).order(
-      created_at: "DESC"
-    ).page params[:borrower_page]
+    @lender_deals = current_user.lending_deals.open.page params[:lender_deals_page]
+    @closed_deals = current_user.lending_deals.closed.page params[:closed_deals_page]
+    @borrower_deals = current_user.borrowing_deals.open.page params[:borrower_deals_page]
   end
 
   # GET /deals/1
@@ -60,10 +48,12 @@ class Member::DealsController < Member::ApplicationController
     end
   end
 
-  # DELETE /deals/1
-  def destroy
-    @deal.destroy
-    redirect_to member_item_deals_url(@deal.item), notice: 'Deal was successfully destroyed.'
+  def destroys
+    if Deal.destroy_closed_deals(current_user)
+      redirect_to member_deals_path, notice: '終了した取引を全て削除しました。'
+    else
+      redirect_to member_deals_psth, notice: '一括削除に失敗しました。'
+    end
   end
 
   private

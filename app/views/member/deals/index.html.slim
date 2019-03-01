@@ -13,6 +13,7 @@ table
       th
       th
       th
+      th
 
   tbody
     - @lender_deals.each do |lender_deal|
@@ -24,10 +25,38 @@ table
         td = lender_deal.status_i18n
         td = link_to 'Show', member_deal_path(lender_deal)
         td = link_to 'Edit', edit_member_deal_path(lender_deal)
-        td = button_to '承認', member_deal_path(lender_deal, params: { deal: { status: 'approved'} }), method: :patch
-        td = button_to '非承認', member_deal_path(lender_deal, params: { deal: { status: 'rejected'} }), method: :patch
+        - if lender_deal.submitted?
+          td = button_to '承認', member_deal_path(lender_deal, params: { deal: { status: 'approved'} }), method: :patch
+          td = button_to '非承認', member_deal_path(lender_deal, params: { deal: { status: 'rejected'} }), method: :patch
 
-= paginate @lender_deals, param_name: :lender_page
+= paginate @lender_deals, param_name: :lender_deals_page
+
+- if @closed_deals.present?
+  h3 closed_deals
+  = button_to '一括削除', destroys_member_deals_path, method: :delete
+  table
+    thead
+      tr
+        th Item
+        th Lender
+        th Borrower
+        th Unit price
+        th Status
+        th
+        th
+
+    tbody
+      - @closed_deals.each do |closed_deal|
+        tr
+          td = closed_deal.item.name
+          td = closed_deal.lender.name
+          td = closed_deal.borrower.name
+          td = closed_deal.unit_price
+          td = closed_deal.status_i18n
+          td = link_to 'Show', member_deal_path(closed_deal)
+          td = link_to 'Edit', edit_member_deal_path(closed_deal)
+
+= paginate @closed_deals, param_name: :closed_deals_page
 
 h2 borrower_deals
 table
@@ -55,4 +84,4 @@ table
         td = link_to 'Destroy', member_deal_path(borrower_deal),
           data: { confirm: 'Are you sure?' }, method: :delete
 
-= paginate @borrower_deals, param_name: :borrower_page
+= paginate @borrower_deals, param_name: :borrower_deals_page
