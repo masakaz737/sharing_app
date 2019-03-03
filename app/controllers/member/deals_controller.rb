@@ -49,10 +49,11 @@ class Member::DealsController < Member::ApplicationController
   end
 
   def approve
-    if @deal.submitted?
-      @deal.approve
+    if @deal.approve_and_create_notification
+      redirect_to member_deals_path, notice: "#{@deal.item.name}のリクエストを承認しました。"
+    else
+      redirect_to member_deals_path, notice: "#リクエストの承認に失敗しました。"
     end
-    redirect_to member_deals_path, notice: "#{@deal.item.name}のリクエストを承認しました。"
   end
 
   def destroys

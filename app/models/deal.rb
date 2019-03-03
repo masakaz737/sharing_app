@@ -2,7 +2,7 @@ class Deal < ApplicationRecord
   belongs_to :item
   belongs_to :lender, class_name: "User"
   belongs_to :borrower, class_name: "User"
-  has_one :notification, dependent: :destroy
+  has_many :notifications, dependent: :destroy
 
   enum status: { submitted: 0, approved: 1, delivered: 2, return: 3, rejected: 4, cancelled: 5 }
 
@@ -48,19 +48,16 @@ class Deal < ApplicationRecord
     end
   end
 
-  def approve
+  def approve_and_create_notification
+    raise 'DealStatusError' if !self.submitted?
+
     self.status = 'approved'
-
+    self.notifications.build(
+      user_id: self.borrower_id,
+      message: "#{self.item.name}のリクエストが承認されました"
+    )
     if self.save
-      notification = Notification.new(
-        user_id: self.borrower_id,
-        deal_id: self.id,
-        message: "#{self.item.name}のリクエストが承認されました"
-      )
-
-      if notification.save
-        DealMailer.send_when_approve(self).deliver_now
-      end
+      DealMailer.send_when_approve(self).deliver_now
     end
   end
 end
