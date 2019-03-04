@@ -16,7 +16,14 @@ Rails.application.routes.draw do
       collection do
         delete :destroys
       end
+
+      member do
+        patch :approve
+      end
     end
   end
+
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

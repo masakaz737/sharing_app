@@ -24,4 +24,34 @@ RSpec.describe Deal, type: :model do
       expect(user.lending_deals.closed.count).to eq 0
     end
   end
+
+  describe 'approve_and_create_notification' do
+    let(:user){ create(:user) }
+    let(:item){ create(:item) }
+
+    context 'statusがsubmittedのDealを承認した場合' do
+      let(:deal){ create(:deal, status: 'submitted', item: item, borrower: user) }
+
+      before do
+        deal.approve_and_create_notification
+      end
+
+      it 'Dealのstatusがapprovedに変ること' do
+        expect(deal.status).to eq 'approved'
+      end
+
+      it 'Dealに紐づくNotificationが生成されること' do
+        expect(deal.notifications.first.user_id).to eq user.id
+        expect(deal.notifications.first.message).to eq "#{item.name}のリクエストが承認されました"
+      end
+    end
+
+    context 'statusがsubmittedでないDealを承認した場合' do
+      let(:deal){ create(:deal, status: 'cancelled', item: item, borrower: user) }
+
+      it 'RuntimeErrorが発生' do
+        expect{ deal.approve_and_create_notification }.to raise_error(RuntimeError)
+      end
+    end
+  end
 end

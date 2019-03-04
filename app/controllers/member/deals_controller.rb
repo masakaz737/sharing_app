@@ -1,5 +1,5 @@
 class Member::DealsController < Member::ApplicationController
-  before_action :set_deal, only: %i[show edit update destroy]
+  before_action :set_deal, only: %i[show edit update destroy approve]
   before_action :set_item, only: %i[new create]
   before_action :require_owner_permission, only: %i[edit update]
 
@@ -48,11 +48,19 @@ class Member::DealsController < Member::ApplicationController
     end
   end
 
+  def approve
+    if @deal.approve_and_create_notification
+      redirect_to member_deals_path, notice: "#{@deal.item.name}のリクエストを承認しました。"
+    else
+      redirect_to member_deals_path, notice: "#リクエストの承認に失敗しました。"
+    end
+  end
+
   def destroys
     if Deal.destroy_closed_deals(current_user)
       redirect_to member_deals_path, notice: '終了した取引を全て削除しました。'
     else
-      redirect_to member_deals_psth, notice: '一括削除に失敗しました。'
+      redirect_to member_deals_path, notice: '一括削除に失敗しました。'
     end
   end
 
