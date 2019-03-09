@@ -17,6 +17,9 @@
       = item_image.file_field :image
       = item_image.hidden_field :image_cache
       = item_image.hidden_field :id, value: item_image.object.id
+      label
+        = item_image.check_box :remove_image
+        | 削除
   .field
     = form.collection_check_boxes :category_ids, Category.all, :id, :name, include_hidden: false do |b|
       = b.label { b.check_box + b.text }
