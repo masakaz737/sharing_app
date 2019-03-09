@@ -1,5 +1,16 @@
 h1 New category
 
-= render 'form', category: @category
+= form_with(model: @categories_form, url: categories_path, local: true) do |f|
+  - if @categories_form.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@categories_form.errors.count, "error")} prohibited this category from being saved:"
+      ul
+        - @categories_form.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.label :name
+    = f.text_field :name, size: '35', placeholder: "（例）本, 衣服, 旅行, ...  <複数入力可>"
+  .actions = f.submit
 
 = link_to 'Back', categories_path
