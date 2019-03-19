@@ -62,7 +62,7 @@ class Member::ItemsController < Member::ApplicationController
         :price,
         :available,
         category_ids: [],
-        item_images_attributes: [:image, :image_cache, :_destroy, :id]
+        item_images_attributes: [:image, :image_cache, :remove_image, :id]
       )
     end
 
